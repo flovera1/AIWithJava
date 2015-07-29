@@ -50,22 +50,31 @@ public class AbstractSearchEngine{
       }
       return ret;
     }
+    /*
+	* Returns an array of Dimension
+	* objects that can be moved to from the specified location. This implements the
+	* movement operator.
+    */
     protected Location [] getPossibleMoves(Location loc) {
         Location tempMoves [] = new Location[4];
-        tempMoves[0] = tempMoves[1] = tempMoves[2] = tempMoves[3] = null;
-        int x = loc.x;
-        int y = loc.y;
-        int num = 0;
+        tempMoves[0]          = tempMoves[1] = tempMoves[2] = tempMoves[3] = null;
+        int x                 = loc.x;
+        int y                 = loc.y;
+        int num               = 0;
         if (maze.getValue(x - 1, y) == 0 || maze.getValue(x - 1, y) == Maze.GOAL_LOC_VALUE) {
+        	//tempMoves[0]
             tempMoves[num++] = new Location(x - 1, y);
         }
         if (maze.getValue(x + 1, y) == 0 || maze.getValue(x + 1, y) == Maze.GOAL_LOC_VALUE) {
+        	//tempMoves[1]
             tempMoves[num++] = new Location(x + 1, y);
         }
         if (maze.getValue(x, y - 1) == 0 || maze.getValue(x, y - 1) == Maze.GOAL_LOC_VALUE) {
+        	//tempMoves[2]
             tempMoves[num++] = new Location(x, y - 1);
         }
         if (maze.getValue(x, y + 1) == 0 || maze.getValue(x, y + 1) == Maze.GOAL_LOC_VALUE) {
+        	//tempMoves[3]
             tempMoves[num++] = new Location(x, y + 1);
         }
         return tempMoves;
