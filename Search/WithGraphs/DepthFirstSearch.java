@@ -2,11 +2,16 @@ public class DepthFirstSearch extends AbstractGraphSearch{
 	//find path - abstract method
 	// path is an array of ints referring to the path we are going to make
 	// in the AbstractGraphSearch.
+	//returns an array of node indices
+	//indicating the calculated path
 	public int [] findPath(int start_node, int goal_node){
 		System.out.println("Entered DepthFirstSearch.findPathHelper(...,"+num_path+", "+goal_node+")");
 		path[0] = start_node;
 		return findPathHelper(path, 1, goal_node);
 	}
+	//path array is used as a stack
+	//to keep track of which nodes are being visited
+	//num_path is the number of locations in the path == search depth
 	public int [] findPathHelper(int[] path, int num_path, int goal_node){
 		System.out.println("Entered DepthFirstSearch.findPathHelper(..., "+
 							num_path + ", " + goal_node + ")");
