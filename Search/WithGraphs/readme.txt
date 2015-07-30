@@ -1,0 +1,2 @@
+AbstractGraphSearch is the base class for both DepthFirstSearch and BreathFirstSearch. The classes GraphDepthFirstSearch and GraphBreathFirstSearch and 
+test programs also provide a Java Foundation Class
