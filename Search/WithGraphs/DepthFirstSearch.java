@@ -1,3 +1,10 @@
+/*
+* this code was made by Mark Watson
+* @author: markw@markwatson.com
+* http://markwatson.com
+* amaxing book of artificial intelligence 
+* with java programming
+*/
 public class DepthFirstSearch extends AbstractGraphSearch{
 	//find path - abstract method
 	// path is an array of ints referring to the path we are going to make

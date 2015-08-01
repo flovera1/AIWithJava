@@ -1,3 +1,10 @@
+/*
+* this code was made by Mark Watson
+* @author: markw@markwatson.com
+* http://markwatson.com
+* amaxing book of artificial intelligence 
+* with java programming
+*/
 /**
 * the board position indices are in the range[0..8]
 * and can be considered to be in the following

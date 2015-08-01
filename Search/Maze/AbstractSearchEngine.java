@@ -1,3 +1,10 @@
+/*
+* this code was made by Mark Watson
+* @author: markw@markwatson.com
+* http://markwatson.com
+* amaxing book of artificial intelligence 
+* with java programming
+*/
 /**
 * date: Tue 28 Jul 2015
 * this code is made from the book:

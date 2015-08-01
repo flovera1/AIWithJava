@@ -1,3 +1,10 @@
+/*
+* this code was made by Mark Watson
+* @author: markw@markwatson.com
+* http://markwatson.com
+* amaxing book of artificial intelligence 
+* with java programming
+*/
 public class BreathFirstSearchEngine extends AbstractSearchEngine{
 	public BreathFirstSearchEngine(int width, int height){
 		super(width, height);

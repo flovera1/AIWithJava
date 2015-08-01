@@ -1,3 +1,10 @@
+/*
+* this code was made by Mark Watson
+* @author: markw@markwatson.com
+* http://markwatson.com
+* amaxing book of artificial intelligence 
+* with java programming
+*/
 public class DepthFirstSearchEngine extends AbstractSearchEngine{
 	public DepthFirstSearchEngine(int width, int height){
 		super(width, height);
