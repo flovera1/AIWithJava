@@ -1,0 +1,5 @@
+To initialize the PowerLoom you have to go to 
+the folder in whin the jar file(powerloom.jar) is contained
+and execute the following command:
+
+java -cp powerloom.jar:stella.jar edu.isi.powerloom.PowerLoom
