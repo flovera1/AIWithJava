@@ -14,10 +14,16 @@
 		private int[] rouletteWheel;
 		private int rouletteWheelSize;
 		public Genetic(int num_genes_per_chromosome, int num_chromosomes){
+			/*	we are using default values for 
+				fraction of chromosomes on which
+				to perform crossover and mutation
+				operations. 
+			*/
 			this(num_genes_per_chromosome, num_chromosomes, 0.8f, 0.01f);
 		}	
 		public Genetic(int num_genes_per_chromosome, int num_chromosomes,
 						float crossover_fraction, float mutation_fraction){
+			//setting specific values for parameters
 			numGenesPerChromosome = num_genes_per_chromosome;
 			numChromosomes        = num_chromosomes;
 			crossoverFraction     = crossover_fraction;
@@ -25,8 +31,8 @@
 			chromosomes           = new ArrayList<Chromosome>(num_chromosomes);
 			for(int i = 0; i < num_chromosomes; i++){
 				chromosomes.add(new Chromosome(numGenesPerChromosome));
-				for(int j = 0; j < num_genes_per_chromosome;j++){
-					chromosomes.get.setBit(j, Math.random() < 0.5);
+					for(int j = 0; j < num_genes_per_chromosome;j++){
+						chromosomes.get.setBit(j, Math.random() < 0.5);
 				}
 			}
 			sort();
@@ -64,8 +70,8 @@
 			doRemoveDuplicates();
 		}
 		public void doCrossovers(){
-			int num = (int)(numChromosomes * crossoverFraction);
-			for(int i = num - 1; i >= 0; i--){
+			int num    = (int)(numChromosomes * crossoverFraction);
+			for(int i  = num - 1; i >= 0; i--){
 				int c1 = 1 + (int) ((rouletteWheelSize - 1)*Math.random()*0.9999f);
 				int c2 = 1 + (int) ((rouletteWheelSize - 1)*Math.random()*0.9999f);
 				c1     = rouletteWheel[c1];
@@ -92,7 +98,48 @@
 		}
 		public void doRemoveDuplicates(){
 			for(int i = numChromosomes - 1; i > 3; i--){
-				
+				for(int j = 0; j < i; j++){
+					if(chromosomes.get(i).equals(chromosomes.get(j))){
+						int g = (int) (numGenesPerChromosome * Math.random()*0.99);
+						setGene(i, g, !getGene(i, g));
+						break;
+					}
+				}
 			}
 		}
+		abstract public void calcFitness();
 	}
+class Chromosome{
+	/*
+	* BitSet class implements a vector of bits that grows as needed.
+	*/
+	BitSet chromosome;
+	float fitness = -999;
+	private Chromosome(){}
+	public Chromosome(int num_genes){
+		chromosome = new BitSet(num_genes);
+	}
+	public boolean getBit(int index){
+		return chromosome.get(index);
+	}
+	public String toString(){
+		return "[Chromosome: fitness: "+fitness+", bit set: "+chromosome + "]";
+	}
+	public void setBit(int index, boolean value){
+		chromosome.set(index, value);
+	}
+	public float getFitness(){
+		return fitness;
+	}
+	public void setFitness(float value){
+		fitness = value;
+	}
+	public boolean equals(Chromosome c){
+		return chromosome.equals(c.chromosome);
+	}
+}
+class ChromosomeComparator implements Comparator<Chromosome>{
+	public int compare(Chromosome 01, Chromosome o2){
+		return (int) (1000*(o2.getFitness() - o1.getFitness()));
+	}
+}
