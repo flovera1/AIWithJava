@@ -8,7 +8,7 @@
 	abstract public class Genetic{
 		protected int numGenesPerChromosome; //number of genes per chromosome
 		protected int numChromosomes;        //number of chromosomes
-		List<Chromosomes> chromosomes;
+		List<Chromosome> chromosomes;
 		private float crossoverFraction;
 		private float mutationFraction;
 		private int[] rouletteWheel; // array used to weight the most fit chromosomes 
@@ -35,7 +35,7 @@
 			for(int i = 0; i < num_chromosomes; i++){
 				chromosomes.add(new Chromosome(numGenesPerChromosome));
 				for(int j = 0; j < num_genes_per_chromosome;j++){
-					chromosomes.get.setBit(j, Math.random() < 0.5);
+					chromosomes.get(i).setBit(j, Math.random() < 0.5);
 				}
 			}
 			sort();
@@ -60,7 +60,7 @@
 			Collections.sort(chromosomes, new ChromosomeComparator());
 		}
 		public boolean getGene(int chromosome, int gene){
-			return chromosomes.get(chromosome).setBit(gene, value!=0);
+			return chromosomes.get(chromosome).getBit(gene);
 		}
 		public void setGene(int chromosome, int gene, boolean value){
 			chromosomes.get(chromosome).setBit(gene, value);
@@ -162,7 +162,7 @@ class Chromosome{
 	}
 }
 class ChromosomeComparator implements Comparator<Chromosome>{
-	public int compare(Chromosome 01, Chromosome o2){
+	public int compare(Chromosome o1, Chromosome o2){
 		return (int) (1000*(o2.getFitness() - o1.getFitness()));
 	}
 }
