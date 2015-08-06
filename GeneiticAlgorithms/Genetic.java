@@ -11,7 +11,10 @@
 		List<Chromosomes> chromosomes;
 		private float crossoverFraction;
 		private float mutationFraction;
-		private int[] rouletteWheel;
+		private int[] rouletteWheel; // array used to weight the most fit chromosomes 
+									 // in the population for choosing the parents
+									 // of crossover and mutation operations.
+
 		private int rouletteWheelSize;
 		public Genetic(int num_genes_per_chromosome, int num_chromosomes){
 			/*	we are using default values for 
@@ -31,12 +34,12 @@
 			chromosomes           = new ArrayList<Chromosome>(num_chromosomes);
 			for(int i = 0; i < num_chromosomes; i++){
 				chromosomes.add(new Chromosome(numGenesPerChromosome));
-					for(int j = 0; j < num_genes_per_chromosome;j++){
-						chromosomes.get.setBit(j, Math.random() < 0.5);
+				for(int j = 0; j < num_genes_per_chromosome;j++){
+					chromosomes.get.setBit(j, Math.random() < 0.5);
 				}
 			}
 			sort();
-			//define the roulette wheel
+			// define the roulette wheel
 			rouletteWheelSize = 0;
 			for(int i = 0; i < numGenesPerChromosome; i++){
 				rouletteWheelSize += i + 1;
@@ -69,6 +72,21 @@
 			doMutations();
 			doRemoveDuplicates();
 		}
+		/*
+		* algorithm for the crossover operation.
+		* When a chromosome is being chosen,
+		* a random integer is selected as an index
+		* into the rouletteWheel array; Every index in
+		* the rouletteWheel array maps to one index into
+		* the chromosome array.
+		* More fit chromosomes are heavily weighted in favor of
+		* being chosen as parents for the crossover operation.
+		* -------
+		* this is too elaborated and could solve in simplistic way
+		* BUT the reason of doing this is that, you get a very
+		* high quality crossover WHICH is vital in the development
+		* of the population.
+		*/
 		public void doCrossovers(){
 			int num    = (int)(numChromosomes * crossoverFraction);
 			for(int i  = num - 1; i >= 0; i--){
@@ -88,6 +106,11 @@
 				}
 			}
 		}
+		/*
+		* randomly choose chromosomes from the population
+		* and for these selected chromosomes we randomly
+		* flip the value of one gene.
+		*/
 		public void doMutations(){
 			int num = (int) (numChromosomes * mutationFraction);
 			for(int i = 0; i < num; i++){
