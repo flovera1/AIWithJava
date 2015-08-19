@@ -1,5 +1,3 @@
-package neuralnetworks;
-
 import java.util.*;
 import java.io.*;
 
@@ -16,7 +14,9 @@ import java.io.*;
  * <p/>
  */
 class Neural_2H implements Serializable {
-
+  /*public static void main(String[] args){
+    System.out.println("hi");
+  }*/
   private static final long serialVersionUID = -8890368507114690975L;
   protected int numInputs;
   protected int numHidden1;
@@ -37,28 +37,37 @@ class Neural_2H implements Serializable {
   protected float output_errors[];
   protected float hidden1_errors[];
   protected float hidden2_errors[];
-
-  transient protected ArrayList inputTraining = new ArrayList();
+  /*
+  * Training examples will be native floats arrays
+  */
+  transient protected ArrayList inputTraining  = new ArrayList();
   transient protected ArrayList outputTraining = new ArrayList();
-
+  /*
+  * The learning rate controls how large the weight corrections
+  * is and whether we can break out of local minimum 
+  * What the author of the code(Mark Watson) use to do 
+  * is start with a low training rate and increase it 
+  * little by litte. 
+  */
   public float TRAINING_RATE = 0.5f;
-
+  /*
+  * This method Builds a new untrained network in memorym
+  * given the number of neurons in each layer. 
+  */
   public Neural_2H(int num_in, int num_hidden1, int num_hidden2, int num_output) {
-
-    numInputs = num_in;
-    numHidden1 = num_hidden1;
-    numHidden2 = num_hidden2;
-    numOutputs = num_output;
-    inputs = new float[numInputs];
-    hidden1 = new float[numHidden1];
-    hidden2 = new float[numHidden2];
-    outputs = new float[numOutputs];
-    W1 = new float[numInputs][numHidden1];
-    W2 = new float[numHidden1][numHidden2];
-    W3 = new float[numHidden2][numOutputs];
+    numInputs      = num_in;
+    numHidden1     = num_hidden1;
+    numHidden2     = num_hidden2;
+    numOutputs     = num_output;
+    inputs         = new float[numInputs];
+    hidden1        = new float[numHidden1];
+    hidden2        = new float[numHidden2];
+    outputs        = new float[numOutputs];
+    W1             = new float[numInputs][numHidden1];
+    W2             = new float[numHidden1][numHidden2];
+    W3             = new float[numHidden2][numOutputs];
     randomizeWeights();
-
-    output_errors = new float[numOutputs];
+    output_errors  = new float[numOutputs];
     hidden1_errors = new float[numHidden1];
     hidden2_errors = new float[numHidden2];
   }
@@ -71,7 +80,10 @@ class Neural_2H implements Serializable {
     inputTraining.add(inputs);
     outputTraining.add(outputs);
   }
-
+  /*
+  * This method reads a saved network file from disk and
+  * builds an instance of Neural_2H 
+  */
   public static Neural_2H Factory(String serialized_file_name) {
     Neural_2H nn = null;
     try {
@@ -81,9 +93,10 @@ class Neural_2H implements Serializable {
         System.exit(1);
       } else {
         ObjectInputStream p = new ObjectInputStream(ins);
-        nn = (Neural_2H) p.readObject();
-        nn.inputTraining = new ArrayList();
-        nn.outputTraining = new ArrayList();
+        nn                  = (Neural_2H) p.readObject();
+        //I think you can comment the next two lines
+        nn.inputTraining    = new ArrayList();
+        nn.outputTraining   = new ArrayList();
         ins.close();
       }
     } catch (Exception e) {
@@ -96,7 +109,7 @@ class Neural_2H implements Serializable {
   public void save(String file_name) {
     try {
       FileOutputStream ostream = new FileOutputStream(file_name);
-      ObjectOutputStream p = new ObjectOutputStream(ostream);
+      ObjectOutputStream p     = new ObjectOutputStream(ostream);
       p.writeObject(this);
       p.flush();
       ostream.close();
@@ -136,15 +149,31 @@ class Neural_2H implements Serializable {
         W3[hh][oo] +=
           0.2f * (float) Math.random() - 0.1f;
   }
-
+/*
+* The last part of the recall method 
+* is just copying the values the array
+* outputs (already cooked in forwardPass
+* including the sigmoid function).
+* into an array of floats called 
+* ret (return value-array of floats)
+*/
   public float[] recall(float[] in) {
-    for (int i = 0; i < numInputs; i++) inputs[i] = in[i];
+    for (int i = 0; i < numInputs; i++){ 
+      inputs[i] = in[i];
+    }
     forwardPass();
     float[] ret = new float[numOutputs];
-    for (int i = 0; i < numOutputs; i++) ret[i] = outputs[i];
+    for (int i = 0; i < numOutputs; i++){
+      ret[i] = outputs[i];
+    } 
     return ret;
   }
-
+  /*
+  * Just putting some values to the neurons in the 
+  * hidden layers(these values are the states of the
+  * neurons).
+  * 
+  */
   public void forwardPass() {
     int i, h, o;
     for (h = 0; h < numHidden1; h++) {
@@ -178,38 +207,65 @@ class Neural_2H implements Serializable {
   public float train() {
     return train(inputTraining, outputTraining);
   }
-
+  /*
+  * current_example is used to cycle through the training 
+  * examples: one training example is processed each
+  * time that the train method is called
+  */
   private int current_example = 0;
 
   public float train(ArrayList ins, ArrayList v_outs) {
+    /*
+    * Before starting a training cycle
+    * for one example, we zero out the arrays used
+    * to hold the output layer errors and the errors
+    * that are back propagated to the hidden layers.
+    * We need to copy the training example input values and
+    * output values.
+    */
     int i, h, o;
-    float error = 0.0f;
+    float error   = 0.0f;
     int num_cases = ins.size();
-    //for (int example=0; example<num_cases; example++) {
-      // zero out error arrays:
-        for (h = 0; h < numHidden1; h++)
-          hidden1_errors[h] = 0.0f;
-    for (h = 0; h < numHidden2; h++)
+    // zero out error arrays:
+    for (h = 0; h < numHidden1; h++){
+      hidden1_errors[h] = 0.0f;
+    }   
+    for (h = 0; h < numHidden2; h++){
       hidden2_errors[h] = 0.0f;
-    for (o = 0; o < numOutputs; o++)
+    }
+    for (o = 0; o < numOutputs; o++){
       output_errors[o] = 0.0f;
+    }
     // copy the input values:
     for (i = 0; i < numInputs; i++) {
       inputs[i] = ((float[]) ins.get(current_example))[i];
     }
     // copy the output values:
     float[] outs = (float[]) v_outs.get(current_example);
-
-    // perform a forward pass through the network:
+    /*
+    * We need to propagate the training example input values
+    * through the hidden layers to the output layers.
+    * 
+    */
 
     forwardPass();
-
+    /*
+    * the sigmoid function is to clamp
+    * the calculated output value to a
+    * reasonable range.
+    */
     for (o = 0; o < numOutputs; o++) {
       output_errors[o] =
         (outs[o] -
             outputs[o])
             * sigmoidP(outputs[o]);
     }
+    /*
+    * the errors for the neuron activation values 
+    * in the second layer are estimated by summing
+    * for each hidden neuron its contribution
+    * to the errors of the output hidden neuron
+    */
     for (h = 0; h < numHidden2; h++) {
       hidden2_errors[h] = 0.0f;
       for (o = 0; o < numOutputs; o++) {
@@ -217,6 +273,12 @@ class Neural_2H implements Serializable {
           output_errors[o] * W3[h][o];
       }
     }
+    /*
+    * We estimate the errors in activation energy for the 
+    * first hidden layer neurons by using the estimated errors 
+    * for the SECOND hidden layer that we calculated in the 
+    * last code snippet.
+    */
     for (h = 0; h < numHidden1; h++) {
       hidden1_errors[h] = 0.0f;
       for (o = 0; o < numHidden2; o++) {
@@ -224,6 +286,13 @@ class Neural_2H implements Serializable {
           hidden2_errors[o] * W2[h][o];
       }
     }
+    /*
+    * AFTER we have scaled estimates for the activation energy
+    * errors for both hidden layers we then want to scale the
+    * error estimates using the derivative of the 
+    * sigmoid function's value of each hidden neuron's
+    * activation energy
+    */
     for (h = 0; h < numHidden2; h++) {
       hidden2_errors[h] =
         hidden2_errors[h] * sigmoidP(hidden2[h]);
@@ -232,6 +301,13 @@ class Neural_2H implements Serializable {
       hidden1_errors[h] =
         hidden1_errors[h] * sigmoidP(hidden1[h]);
     }
+    /*
+    * now we update the weights connecting to the output
+    * layer and each hidden layer by adding the product
+    * of the current learning rate, the estimated error
+    * of each weight's target neuron 
+    * 
+    */
     // update the hidden2 to output weights:
       for (o = 0; o < numOutputs; o++) {
         for (h = 0; h < numHidden2; h++) {
@@ -261,7 +337,8 @@ class Neural_2H implements Serializable {
         //error += Math.abs(output_errors[o]);
       }
       current_example++;
-      if (current_example >= num_cases) current_example = 0;
+      if (current_example >= num_cases) 
+        current_example = 0;
       return error;
   }
 
