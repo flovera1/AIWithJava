@@ -22,9 +22,11 @@ public class Plot1DPanel extends java.awt.Canvas { // JPanel {
     private float temp;
     private float[] values = null;
     private Color[] colors;
-
-    //public void plot(float [] values) {
-    //}
+    /*
+    * An application must subclasses the canvas class in order to get useful 
+    * functionality such as creating a custom component. The paint method 
+    * must be overridden in order to perform custom graphics on the canvas.
+    */
     public void paint(Graphics g) {
         //System.out.println("Plot1DPanel: values="+values);
         if (values == null) return;

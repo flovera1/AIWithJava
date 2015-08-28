@@ -23,7 +23,11 @@ public class Plot2DPanel extends java.awt.Canvas { // JPanel {
     private float temp;
     private float[][] values = null;
     private Color[] colors;
-
+    /*
+    * An application must subclasses the canvas class in order to get useful 
+    * functionality such as creating a custom component. The paint method 
+    * must be overridden in order to perform custom graphics on the canvas.
+    */
     public void paint(Graphics g) {
         if (values == null) return;
         int delta_width = this.getWidth() / num1;

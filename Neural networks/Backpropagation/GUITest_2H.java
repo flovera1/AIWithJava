@@ -3,34 +3,31 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class GUITest_2H extends JFrame {
-    static float[] in1 = {0.1f, 0.1f, 0.9f};
-    static float[] in2 = {0.1f, 0.9f, 0.1f};
-    static float[] in3 = {0.9f, 0.1f, 0.1f};
-
-    static float[] out1 = {0.9f, 0.1f, 0.1f};
-    static float[] out2 = {0.1f, 0.1f, 0.9f};
-    static float[] out3 = {0.1f, 0.9f, 0.1f};
-
-    static float[] test1 = {0.1f, 0.1f, 0.9f};
-    static float[] test2 = {0.1f, 0.9f, 0.1f};
-    static float[] test3 = {0.9f, 0.1f, 0.1f};
-
-    Neural_2H nn = new Neural_2H(3, 3, 3, 3);
-    Plot1DPanel inputPanel = new Plot1DPanel(3,   0.0f, 1.0f, nn.inputs);
+    static float[] in1       = {0.1f, 0.1f, 0.9f};
+    static float[] in2       = {0.1f, 0.9f, 0.1f};
+    static float[] in3       = {0.9f, 0.1f, 0.1f};
+    static float[] out1      = {0.9f, 0.1f, 0.1f};
+    static float[] out2      = {0.1f, 0.1f, 0.9f};
+    static float[] out3      = {0.1f, 0.9f, 0.1f};
+    static float[] test1     = {0.1f, 0.1f, 0.9f};
+    static float[] test2     = {0.1f, 0.9f, 0.1f};
+    static float[] test3     = {0.9f, 0.1f, 0.1f};
+    Neural_2H nn             = new Neural_2H(3, 3, 3, 3);
+    Plot1DPanel inputPanel   = new Plot1DPanel(3,   0.0f, 1.0f, nn.inputs);
     Plot1DPanel hidden1Panel = new Plot1DPanel(3, 0.0f, 1.0f, nn.hidden1);
     Plot1DPanel hidden2Panel = new Plot1DPanel(3, 0.0f, 1.0f, nn.hidden2);
-    Plot1DPanel outputPanel = new Plot1DPanel(3,  0.0f, 1.0f, nn.outputs);
-    Plot2DPanel w1Panel = new Plot2DPanel(3, 3, nn.clampWeight(-100), nn.clampWeight(100), nn.W1);
-    Plot2DPanel w2Panel = new Plot2DPanel(3, 3, nn.clampWeight(-100), nn.clampWeight(100), nn.W2);
-    Plot2DPanel w3Panel = new Plot2DPanel(3, 3, nn.clampWeight(-100), nn.clampWeight(100), nn.W3);
-    JButton jButton1 = new JButton(); 
-    JLabel jLabel1 = new JLabel();
-    JLabel jLabel2 = new JLabel();
-    JLabel jLabel2b = new JLabel();
-    JLabel jLabel3 = new JLabel();
-    JLabel jLabel4 = new JLabel();
-    JLabel jLabel4b = new JLabel();
-    JLabel jLabel5 = new JLabel();
+    Plot1DPanel outputPanel  = new Plot1DPanel(3,  0.0f, 1.0f, nn.outputs);
+    Plot2DPanel w1Panel      = new Plot2DPanel(3, 3, nn.clampWeight(-100), nn.clampWeight(100), nn.W1);
+    Plot2DPanel w2Panel      = new Plot2DPanel(3, 3, nn.clampWeight(-100), nn.clampWeight(100), nn.W2);
+    Plot2DPanel w3Panel      = new Plot2DPanel(3, 3, nn.clampWeight(-100), nn.clampWeight(100), nn.W3);
+    JButton jButton1         = new JButton(); 
+    JLabel jLabel1           = new JLabel();
+    JLabel jLabel2           = new JLabel();
+    JLabel jLabel2b          = new JLabel();
+    JLabel jLabel3           = new JLabel();
+    JLabel jLabel4           = new JLabel();
+    JLabel jLabel4b          = new JLabel();
+    JLabel jLabel5           = new JLabel();
 
     public GUITest_2H() {
         try { 
