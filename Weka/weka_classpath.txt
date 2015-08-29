@@ -1,0 +1,12 @@
+To be able to use weka it was necessary to add two jars to our Java version.
+The first jar is a mysql jar called: mysql-connector-java-3.1.8-bin.jar
+The second one is the actual weka jar:  weka.jar  
+----
+Now, you need to put this jars in this folder:
+~/library/Java/Extensions
+----
+And finally run this in your terminal(I am using bash, so it really depends in what you have):
+	bash export CLASSPATH=$CLASSPATH:/home/johndoe/jars/mysql-connector-java-3.1.8-bin.jar
+
+IF you have a C Shell terminal you should run:
+	c shell setenv CLASSPATH $CLASSPATH:/home/johndoe/jars/mysql-connector-java-3.1.8-bin.jar
